@@ -1,0 +1,34 @@
+<html>
+<body>
+	<input type="text" id="name" placeholder="Enter Name">
+	<input type="number" id="pin" placeholder="Enter Pin">
+	<input type="text" id="pass" placeholder="Enter Password">
+	
+	<input type="date" id="dtpicker">
+	<input type="range" min="0" max="100" id="slider">
+	<button id="btnSubmit" onclick="display()">Click for Submit</button>
+	
+	<div id="userName"></div>
+	<div id="passWord"></div>
+	<div id="pinNumber"></div>
+	<div id="datePicker"></div>
+	<div id="rngSlider"></div>
+	<script type="text/javascript">
+	function display()
+	{
+		var username = document.getElementById("name").value;
+		var password = document.getElementById("pass").value;
+		var pinnumber = document.getElementById("pin").value;
+		var datepicker = document.getElementById("dtpicker").value;
+		var rangeslider = document.getElementById("slider").value;
+		
+		
+		document.getElementById("userName").innerHTML = "Username: " + username;
+		document.getElementById("pinNumber").innerHTML = "Pin: " + pinnumber;
+		document.getElementById("passWord").innerHTML = "Password: " + password;
+		document.getElementById("datePicker").innerHTML = "Date: " + datepicker;
+		document.getElementById("rngSlider").innerHTML = "Range: " + rangeslider;
+	}
+	</script>
+</body>
+</html>
