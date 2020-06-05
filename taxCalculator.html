@@ -1,0 +1,107 @@
+<html>
+    <body>
+        <div id="appWrapper" style=" width:75%; margin:auto; border: 15px solid lightblue;">
+        <div id="navbar" style="text-align: center; background-color:lightblue; color:white; padding:20px;">
+            <a href="./home.html">Home</a>
+            <a href="./single.html">Single</a>
+            <a href="./married.html">Married</a>
+        </div>
+
+        <div id="inputArea" style="text-align: center; padding:40px;">
+
+        <label>Gross Income</label>
+             <input id="Earned" type="number"></input>
+        <br/>
+
+         
+        <label>Deductable</label>
+             <input type="checkbox" id="deduct"></input>
+        <br/>
+         <!--
+        <label>Deductable</label>
+         <select name="deduct"> 
+         <option value="value1">Apply Deduction</option> 
+         <option value="value2" selected>Do Not Apply</option>
+        </select>
+        -->
+
+        
+
+        <label>Full Name</label>    
+        <input id="name" type="name"> </input>
+        
+         <br/>
+        <!--
+        <label>Date</label>
+             <input id="Date" type="Date"></input>
+        <br/>
+        -->
+    
+        <label>PIN</label>
+        <input id="pin" type="password" inputmode="numeric" minlength="4"
+       maxlength="4" size="4"></input>
+        <br/>
+        
+        <button id="addTrans">Calculate</button>
+        <button id="resetButton">Reset Form</button>
+        <br/>
+
+
+        <label>Total Income </label>$<span id="total"></span>
+        <label>Taxes Due </label>$<span id="taxes"></span>
+        </div>
+
+         <div id="footer" style="text-align: center; background-color:lightblue; color:white; padding:20px;">this is my footer
+         </div>
+        </div>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+     <script>
+        var payments = [];
+        var total;
+
+         function calcTaxes(amount){
+         var tax = 0;
+    
+            if(amount >186350){
+            tax = (amount - 186350) * .33 + 907.5;
+            }
+            else if(amount > 89350){
+            tax = (amount - 89350) * .28 + 907.5+(36900-9072)*.15+(89350-36900)*.25;
+            }
+            else if( amount > 37650){
+            tax = (amount - 37650) * .25 + 907.5+(36900-9072)*.15;    
+            }
+            else if(amount > 9275){
+            tax = (amount - 9275) * .15 + 927.5;
+            }
+            else{
+            tax = amount * .10;
+            }
+            //tax += amount * .153;
+            return tax;
+
+            }   
+
+            $("#addTrans").click(function () {
+             payments.push({
+             amount: parseInt($("#Earned").val())});
+             //date:$("#Date").val()});
+             total = 0;
+             
+             for(x in payments){
+             total += payments[x].amount;
+             }
+             
+             $("#total").html(total);
+             $("#Earned").val("");
+             $("#taxes").html(calcTaxes(total));
+             });
+
+            function formReset(){
+                 document.getElementById('Earned').reset();
+            }
+           
+
+     </script>
+    </body>
+</html>
