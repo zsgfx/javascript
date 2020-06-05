@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+       #map {
+        height: 400px;
+        width: 100%;
+       }
+     
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    Origin:<br>
+    <input type="text" id="txtAddress" value="Enter Street"><br>
+    <input type="text" id="txtCity" value="Enter City/State"><br>
+    Destination:<br>
+    <input type="text" id="txtAddress2" value="Enter Street"><br>
+    <input type="text" id="txtCity2" value="Enter City/State"><br>
+
+    <button id="driver" onclick="getDirections()">Get Directions</button>
+    <button id="btnDirections" onclick="getDirections()">Get Directions2</button>
+
+   <!--<div id="locationDiv"></div>--> <hr>
+    
+    <label id="locationLabel" ></label><br>
+	     <button id="btnLocation" onclick="getLocation()">Click to get current location</button>
+	     <!--<button id="btnDirections" onclick="getDirections()">Get Directions</button>-->  <hr>
+
+    Group 3:<br>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzwo0-FcnV_gPRV5fk_dDR67aj8h6tm5o&callback=initMap"></script>
+    <script>
+
+    var street;
+    var cityState;
+    var address;
+    var dataLat;
+    var dataLong;
+
+    var street2;
+    var cityState2;
+    var address2;
+    var dataLat2;
+    var dataLong2;
+
+    var apiKey = 'a84daa6ddeb2ae5b44c5d625a02da00c8cdd8ae';
+    
+        //draws map
+      function initMap() {
+          map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat:  36.863140, lng: -75.9780},
+          scrollwheel: false,
+          zoom: 7
+        });
+    }
+
+    $("#driver").click(function(event){
+    street = $("#txtAddress").val();
+    cityState = $("#txtCity").val();
+    address = street + ', ' + cityState;
+
+    street2 = $("#txtAddress2").val();
+    cityState2 = $("#txtCity2").val();
+    address2 = street2 + ', ' + cityState2;
+
+    $.getJSON('https://api.geocod.io/v1/geocode?q='+ encodeURIComponent(address) +'&api_key=' + encodeURIComponent(apiKey),           function(data) {
+    dataLat = data.results[0].location.lat;
+    dataLong = data.results[0].location.lng;
+   
+   $.getJSON('https://api.geocod.io/v1/geocode?q='+ encodeURIComponent(address2) +'&api_key=' + encodeURIComponent(apiKey),           function(data) {
+    dataLat2 = data.results[0].location.lat;
+    dataLong2 = data.results[0].location.lng;
+   });
+   });   //end getJson success function
+
+   //document.getElementById("locationDiv").innerHTML = "Lat: " + dataLat + " Long: " + dataLong + dataLat2 + dataLong2;
+   
+  }); //end .click
+
+    //draws directions
+   /*function getDirections(){     
+      var directionsDisplay = new google.maps.DirectionsRenderer({
+          map: map
+        });
+    
+        // Set destination, origin and travel mode.
+        var request = {
+          destination: {lat: dataLat2, lng: dataLong2},
+          origin: {lat: dataLat, lng: dataLong},
+          travelMode: 'DRIVING'
+        };
+
+        // Pass the directions request to the directions service.
+        var directionsService = new google.maps.DirectionsService();
+        directionsService.route(request, function(response, status) {
+          if (status == 'OK') {
+            // Display the route on the map.
+            directionsDisplay.setDirections(response);
+          }
+        });
+    }*/
+ 
+
+		var currentLat;
+		var currentLong;
+		var map;
+    //requests current location
+		function getLocation()
+		{
+			navigator.geolocation.getCurrentPosition(showLocation);
+			function showLocation(position) {
+			currentLat = position.coords.latitude;
+			currentLong = position.coords.longitude;
+    //  document.getElementById("locationDiv2").innerHTML = "Lat: " + currentLat + " Long: " + currentLong;   
+      localStorage.setItem("localLat1", currentLat);
+      localStorage.setItem("localLong1", currentLong);
+      var obj1 = localStorage.getItem("localLat1");
+      var obj2 = localStorage.getItem("localLong1");
+
+      document.getElementById("locationLabel").innerHTML = obj1 + " " + obj2;
+			}
+		}
+
+
+
+</script>
+
+      
+
+  </body>
+</html>
